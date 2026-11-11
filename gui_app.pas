@@ -19,7 +19,7 @@ begin
     WM_COMMAND:
       begin
 
-        if LOWORD(WParam) = 1 then 
+        if LOWORD(WParam) = 0 then 
           MessageBox(Window, 'Hello World!', 'Greetings', MB_OK or MB_ICONINFORMATION);
       end;
   end;
@@ -34,6 +34,7 @@ var
   Msg: TMsg;
   x: integer;
   y: integer;
+  keyText: array [0..4, 0..3] of String;
 
 begin
   FillChar(WindowClass, SizeOf(WindowClass), 0);
@@ -55,27 +56,41 @@ begin
 
   if WindowHandle = 0 then Halt;
 
-  for y := 0 to 3 do
+  keyText[0,0] := '(';
+  keyText[0,1] := ')';
+  keyText[0,2] := 'DEL';
+  keyText[0,3] := 'CE';
+  keyText[1,0] := '1';
+  keyText[1,1] := '2';
+  keyText[1,2] := '3';
+  keyText[1,3] := '/';
+  keyText[2,0] := '4';
+  keyText[2,1] := '5';
+  keyText[2,2] := '6';
+  keyText[2,3] := '*';
+  keyText[3,0] := '7';
+  keyText[3,1] := '8';
+  keyText[3,2] := '9';
+  keyText[3,3] := '-';
+  keyText[4,0] := '0';
+  keyText[4,1] := '.';
+  keyText[4,2] := '=';
+  keyText[4,3] := '+';
+  
+
+
+  for y := 0 to 4 do
     for x:= 0 to 3 do 
       begin
         begin
           ButtonHandle := CreateWindow(
-            'BUTTON', 'Click Me',
+            'BUTTON', PChar(keyText[y,x]),
             WS_VISIBLE or WS_CHILD or BS_DEFPUSHBUTTON,
-            60 * x, 120 + (60 * y), 60, 60,
+            70 * x, 120 + (60 * y), 70, 60,
             WindowHandle, HMENU(1), HInstance, nil
           );
         end;
       end;
-
-
-
-
-
-
-
-
-
 
   while GetMessage(Msg, 0, 0, 0) do
   begin
